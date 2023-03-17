@@ -96,27 +96,28 @@ public class ClientRepository {
 		if (menu == "출금") {
 			money = money * -1;
 		}
-		if (ok) {
+		if (!ok) {
 			for (String key : cMap.keySet()) {
 				if (cMap.get(key).getAccount().equals(account)) {
-					cMap.get(key).setBalance(cMap.get(key).getBalance() + money);
-					repository.breakdown(menu, account, money, cMap.get(key).getBalance());
-					return true;
-				} else {
-					return false;
+					if (cMap.get(key).getBalance() + money >= 0) {
+						cMap.get(key).setBalance(cMap.get(key).getBalance() + money);
+						repository.breakdown(menu, account, money, cMap.get(key).getBalance());
+						return true;
+					} else {
+						System.out.println("잔액이 부족합니다.");
+						return false;
+					}
 				}
 			}
-			return false;
-		} else {
-			return false;
 		}
+		return false;
+
 	}
 
 	public boolean du(String menu, String account) {
 		if (repository.select(menu, account)) {
 			return true;
 		} else {
-			System.out.println("실패");
 			return false;
 		}
 	}
@@ -124,7 +125,11 @@ public class ClientRepository {
 	public void breakdown(String menu, String account, long money, long balance) {
 		BreakdownDTO breakdownDTO = new BreakdownDTO();
 		breakdownDTO.setAccount(account);
-		breakdownDTO.setDealMoney(money);
+		if (menu == "출금") {
+			breakdownDTO.setDealMoney((money * -1));
+		} else {
+			breakdownDTO.setDealMoney(money);
+		}
 		breakdownDTO.setDivision(menu);
 		breakdownDTO.setTotalMoney(balance);
 		bList.add(breakdownDTO);

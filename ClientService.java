@@ -103,66 +103,36 @@ public class ClientService {
 		}
 
 	}
-/*
-	public void deposit() {
-		String account = repository.getAccount(loginId, loginPw);
-		if (account == null) {
-			System.out.println("로그인 오류");
-		} else {
-			System.out.print("입금할 금액 입력> ");
-			long addMoney = sc.nextLong();
-			if (repository.deposit(account, addMoney)) {
-				System.out.println("입금 완료");
-			} else {
-				System.out.println("입금 오류");
-			}
-		}
-
-	}
-	*/
-/*
-	public void withdraw() {
-		String account = repository.getAccount(loginId, loginPw);
-		if (account == null) {
-			System.out.println("로그인 오류");
-		} else {
-			System.out.println("출금할 금액 입력");
-			long withdrawMoney = sc.nextLong();
-			if (repository.withdraw(account, withdrawMoney)) {
-				System.out.println("출금 완료");
-			} else {
-				System.out.println("잔액 부족");
-
-			}
-		}
-	}
-*/
 	/*
-	public void transferCheck() {
-		String account = repository.getAccount(loginId, loginPw);
-		if (account == null) {
-			System.out.println("로그인 오류");
-			return;
-		}
-		System.out.print("계좌이체받을 계좌번호 입력> ");
-		String addAccount = sc.next();
-		if (repository.transferAccount(addAccount)) {
-			System.out.print("계좌이체할 금액 입력> ");
-			long Money = sc.nextLong();
-			if (repository.du(account, Money)) {
-				if (repository.du(addAccount, Money)) {
-					System.out.println("이체 성공");
-				}
-			} else {
-				System.out.println("이체할 잔액 부족");
-			}
-		} else {
-			System.out.println("계좌번호 오류");
-		}
+	 * public void deposit() { String account = repository.getAccount(loginId,
+	 * loginPw); if (account == null) { System.out.println("로그인 오류"); } else {
+	 * System.out.print("입금할 금액 입력> "); long addMoney = sc.nextLong(); if
+	 * (repository.deposit(account, addMoney)) { System.out.println("입금 완료"); } else
+	 * { System.out.println("입금 오류"); } }
+	 * 
+	 * }
+	 */
+	/*
+	 * public void withdraw() { String account = repository.getAccount(loginId,
+	 * loginPw); if (account == null) { System.out.println("로그인 오류"); } else {
+	 * System.out.println("출금할 금액 입력"); long withdrawMoney = sc.nextLong(); if
+	 * (repository.withdraw(account, withdrawMoney)) { System.out.println("출금 완료");
+	 * } else { System.out.println("잔액 부족");
+	 * 
+	 * } } }
+	 */
+	/*
+	 * public void transferCheck() { String account = repository.getAccount(loginId,
+	 * loginPw); if (account == null) { System.out.println("로그인 오류"); return; }
+	 * System.out.print("계좌이체받을 계좌번호 입력> "); String addAccount = sc.next(); if
+	 * (repository.transferAccount(addAccount)) { System.out.print("계좌이체할 금액 입력> ");
+	 * long Money = sc.nextLong(); if (repository.du(account, Money)) { if
+	 * (repository.du(addAccount, Money)) { System.out.println("이체 성공"); } } else {
+	 * System.out.println("이체할 잔액 부족"); } } else { System.out.println("계좌번호 오류"); }
+	 * 
+	 * }
+	 */
 
-	}
-*/
-	
 	public void update() {
 		String account = repository.getAccount(loginId, loginPw);
 		if (account == null) {
@@ -180,26 +150,23 @@ public class ClientService {
 		}
 	}
 
-	public void du() {
+	public void du(int i) {
 		String account = repository.getAccount(loginId, loginPw);
 		if (account == null) {
 			System.out.println("로그인 오류");
 		} else {
-			System.out.println("1.입금 2.출금");
-			System.out.print("메뉴선택> ");
-			int menu = util.numberCheck();
-			if (menu == 1) {// 입금
+			if (i == 2) {// 입금
 				String menu1 = "입금";
-				if(repository.du(menu1,account)) {
+				if (repository.du(menu1, account)) {
 					System.out.println("입금 성공");
-				}else {
+				} else {
 					System.out.println("입금 실패");
 				}
-			} else if (menu == 2) {// 출금
+			} else if (i == 3) {// 출금
 				String menu2 = "출금";
-				if(repository.du(menu2,account)) {
+				if (repository.du(menu2, account)) {
 					System.out.println("출금 성공");
-				}else {
+				} else {
 					System.out.println("출금 실패");
 				}
 			} else {

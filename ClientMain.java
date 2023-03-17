@@ -28,7 +28,7 @@ public class ClientMain {
 				}
 			} else if (menu == 2) {
 				if (loginOk) {
-					service.du();
+					service.du(2);
 				} else {
 					if(service.login()) {
 					loginOk = true;
@@ -36,7 +36,7 @@ public class ClientMain {
 				}
 			} else if (menu == 3) {
 				if (loginOk) {
-					service.du();
+					service.du(3);
 				} else {
 					service.findAll();
 				}
