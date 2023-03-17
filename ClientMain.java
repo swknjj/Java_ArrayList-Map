@@ -5,19 +5,20 @@ import java.util.Scanner;
 public class ClientMain {
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		// 4시까지
 		ClientService service = ClientService.getInstance(); // 싱글톤 getInstance
 		boolean loginOk = false;
-
+		Util util = new Util();
+ // 회원가입 아이디 중복체크
 		while (true) {
 			System.out.println("=====인터넷뱅킹=====");
 			if (loginOk) {
-				System.out.println("1.입출금조회 2.입금 3.출금 4.계좌이체 5.비밀번호수정 6.회원탈퇴 7.로그아웃 0.종료");
+				System.out.println("1.입출금조회 2.입출금 3. 4.계좌이체 5.비밀번호수정 6.회원탈퇴 7.로그아웃 0.종료");
 			} else {
 				System.out.println("1.회원가입 2.로그인 3.리스트 0.종료");
 			}
 			System.out.print("선택> ");
-			int menu = sc.nextInt();
+			int menu = util.numberCheck();
 
 			if (menu == 1) {
 				if (loginOk) {
@@ -29,8 +30,9 @@ public class ClientMain {
 				if (loginOk) {
 					service.deposit();
 				} else {
-					service.login();
+					if(service.login()) {
 					loginOk = true;
+					}
 				}
 			} else if (menu == 3) {
 				if (loginOk) {

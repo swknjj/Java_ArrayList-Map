@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ClientService {
 	private static ClientService service = new ClientService();
-
+	Util util = new Util();
 	// 생성자를 private제한
 	private ClientService() {
 	}
@@ -18,11 +18,10 @@ public class ClientService {
 	private ClientRepository repository = ClientRepository.getInstance();
 	private String loginId = null;
 	private String loginPw = null;
-	private String loginAcc = null;
 
 	public void save() {
 		System.out.print("id> ");
-		String id = sc.next();
+		String id = util.duCheck();
 		System.out.print("pw> ");
 		String password = sc.next();
 		System.out.print("name>");
@@ -41,6 +40,9 @@ public class ClientService {
 	public void findAll() {
 		Map<String, ClientDTO> cMap = repository.findAll();
 		List<String> keySet = new ArrayList<>(cMap.keySet());
+		if (cMap.size() == 0) {
+			System.out.println("검색되는 자료가 없습니다");
+		}
 		keySet.sort(Comparator.naturalOrder());
 		System.out.println("계좌\t\t아이디\t비밀번호\t이름\t잔액\t가입날짜");
 		System.out.println("===================================================");
@@ -49,7 +51,7 @@ public class ClientService {
 		}
 	}
 
-	public void login() {
+	public boolean login() {
 		System.out.print("login Id> ");
 		String loginId2 = sc.next();
 		System.out.print("login Password> ");
@@ -58,8 +60,10 @@ public class ClientService {
 			loginId = loginId2;
 			loginPw = loginPassword2;
 			System.out.println("로그인 성공");
+			return true;
 		} else {
 			System.out.println("로그인 실패");
+			return false;
 		}
 	}
 
@@ -123,7 +127,7 @@ public class ClientService {
 			System.out.println("출금할 금액 입력");
 			long withdrawMoney = sc.nextLong();
 			if (repository.withdraw(account, withdrawMoney)) {
-				System.out.println("출금 성공");
+				System.out.println("출금 완료");
 			} else {
 				System.out.println("잔액 부족");
 
@@ -154,21 +158,23 @@ public class ClientService {
 		}
 
 	}
-	
+
 	public void update() {
 		String account = repository.getAccount(loginId, loginPw);
-		if(account == null) {
+		if (account == null) {
 			System.out.println("로그인 오류");
 			return;
-		}else {
+		} else {
 			System.out.print("수정할 비밀번호> ");
 			String updatePassword = sc.next();
-			if(repository.update(account,updatePassword)) {
+			if (repository.update(account, updatePassword)) {
 				System.out.println("비밀번호 수정 완료");
 				loginPw = updatePassword;
-			}else {
+			} else {
 				System.out.println("수정 오류");
 			}
 		}
 	}
+
+
 }

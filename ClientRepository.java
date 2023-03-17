@@ -4,20 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class ClientRepository {
 	private static ClientRepository repository = new ClientRepository();
-	private Map<String, ClientDTO> cMap = new HashMap<>();
+
+	private ClientRepository() {
+	}
 
 	public static ClientRepository getInstance() {
 		return repository;
 	}
 
+	Scanner sc = new Scanner(System.in);
+	private Map<String, ClientDTO> cMap = new HashMap<>();
 	List<BreakdownDTO> bList = new ArrayList<>();
 
 	public boolean save(String account, ClientDTO clientDTO, Long balance) {
-		ClientDTO result = cMap.put(account, clientDTO);
-		if (result == null) {
+		if (cMap.put(account, clientDTO) == null) {
 			BreakdownDTO breakdownDTO = new BreakdownDTO();
 			breakdownDTO.setAccount(account);
 			breakdownDTO.setDivision("초기입금");
@@ -25,7 +29,6 @@ public class ClientRepository {
 			breakdownDTO.setTotalMoney(balance);
 			bList.add(breakdownDTO);
 			return true;
-
 		} else {
 			return false;
 		}
@@ -81,8 +84,7 @@ public class ClientRepository {
 				breakdownDTO.setAccount(cMap.get(key).getAccount());
 				breakdownDTO.setDealMoney(addMoney);
 				breakdownDTO.setDivision("입금");
-				breakdownDTO.setTotalMoney(cMap.get(key).getBalance() + addMoney);
-//				cMap.put(cMap.get(key),cMap.get(key).getBalance());
+				breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
 				bList.add(breakdownDTO);
 				return true;
 			}
@@ -94,15 +96,15 @@ public class ClientRepository {
 	public boolean withdraw(String account, long withdrawMoney) {
 		for (String key : cMap.keySet()) {
 			if (cMap.get(key).getAccount().equals(account)) {
-				if(cMap.get(key).getBalance()>= withdrawMoney) {
-				cMap.get(key).setBalance(cMap.get(key).getBalance() - withdrawMoney);
-				BreakdownDTO breakdownDTO = new BreakdownDTO();
-				breakdownDTO.setAccount(cMap.get(key).getAccount());
-				breakdownDTO.setDealMoney(withdrawMoney);
-				breakdownDTO.setDivision("출금");
-				breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
-				bList.add(breakdownDTO);
-				return true;
+				if (cMap.get(key).getBalance() >= withdrawMoney) {
+					cMap.get(key).setBalance(cMap.get(key).getBalance() - withdrawMoney);
+					BreakdownDTO breakdownDTO = new BreakdownDTO();
+					breakdownDTO.setAccount(cMap.get(key).getAccount());
+					breakdownDTO.setDealMoney(withdrawMoney);
+					breakdownDTO.setDivision("출금");
+					breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
+					bList.add(breakdownDTO);
+					return true;
 				}
 				return false;
 			}
@@ -120,22 +122,25 @@ public class ClientRepository {
 		}
 		return false;
 	}
-	public String getAccount (String loginId , String loginPw) {
-		for(String key : cMap.keySet()) {
-			if(cMap.get(key).getId().equals(loginId) && cMap.get(key).getPassword().equals(loginPw)) {
+
+	public String getAccount(String loginId, String loginPw) {
+		for (String key : cMap.keySet()) {
+			if (cMap.get(key).getId().equals(loginId) && cMap.get(key).getPassword().equals(loginPw)) {
 				String c = cMap.get(key).getAccount();
 				return c;
 			}
 		}
 		return null;
 	}
-	public boolean update(String account , String updatePassword) {
-		for(String key : cMap.keySet()) {
-			if(cMap.get(key).getAccount().equals(account)) {
+
+	public boolean update(String account, String updatePassword) {
+		for (String key : cMap.keySet()) {
+			if (cMap.get(key).getAccount().equals(account)) {
 				cMap.get(key).setPassword(updatePassword);
 				return true;
 			}
 		}
 		return false;
 	}
+	
 }
