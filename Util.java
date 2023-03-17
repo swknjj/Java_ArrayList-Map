@@ -42,6 +42,7 @@ public class Util {
 	}
 
 }
+
 /*
 public String duCheck(List<Shopping>list) {
 Scanner sc = new Scanner(System.in);

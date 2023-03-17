@@ -5,6 +5,7 @@ import java.util.*;
 public class ClientService {
 	private static ClientService service = new ClientService();
 	Util util = new Util();
+
 	// 생성자를 private제한
 	private ClientService() {
 	}
@@ -102,7 +103,7 @@ public class ClientService {
 		}
 
 	}
-
+/*
 	public void deposit() {
 		String account = repository.getAccount(loginId, loginPw);
 		if (account == null) {
@@ -118,7 +119,8 @@ public class ClientService {
 		}
 
 	}
-
+	*/
+/*
 	public void withdraw() {
 		String account = repository.getAccount(loginId, loginPw);
 		if (account == null) {
@@ -134,7 +136,8 @@ public class ClientService {
 			}
 		}
 	}
-
+*/
+	/*
 	public void transferCheck() {
 		String account = repository.getAccount(loginId, loginPw);
 		if (account == null) {
@@ -145,9 +148,9 @@ public class ClientService {
 		String addAccount = sc.next();
 		if (repository.transferAccount(addAccount)) {
 			System.out.print("계좌이체할 금액 입력> ");
-			long transferMoney = sc.nextLong();
-			if (repository.withdraw(account, transferMoney)) {
-				if (repository.deposit(addAccount, transferMoney)) {
+			long Money = sc.nextLong();
+			if (repository.du(account, Money)) {
+				if (repository.du(addAccount, Money)) {
 					System.out.println("이체 성공");
 				}
 			} else {
@@ -158,7 +161,8 @@ public class ClientService {
 		}
 
 	}
-
+*/
+	
 	public void update() {
 		String account = repository.getAccount(loginId, loginPw);
 		if (account == null) {
@@ -176,5 +180,33 @@ public class ClientService {
 		}
 	}
 
+	public void du() {
+		String account = repository.getAccount(loginId, loginPw);
+		if (account == null) {
+			System.out.println("로그인 오류");
+		} else {
+			System.out.println("1.입금 2.출금");
+			System.out.print("메뉴선택> ");
+			int menu = util.numberCheck();
+			if (menu == 1) {// 입금
+				String menu1 = "입금";
+				if(repository.du(menu1,account)) {
+					System.out.println("입금 성공");
+				}else {
+					System.out.println("입금 실패");
+				}
+			} else if (menu == 2) {// 출금
+				String menu2 = "출금";
+				if(repository.du(menu2,account)) {
+					System.out.println("출금 성공");
+				}else {
+					System.out.println("출금 실패");
+				}
+			} else {
+				System.out.println("다시 입력");
+				return;
+			}
+		}
 
+	}
 }

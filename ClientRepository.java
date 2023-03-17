@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ClientRepository {
 	private static ClientRepository repository = new ClientRepository();
@@ -76,41 +77,90 @@ public class ClientRepository {
 		return list;
 	}
 
-	public boolean deposit(String account, long addMoney) {
-		for (String key : cMap.keySet()) {
-			if (cMap.get(key).getAccount().equals(account)) {
-				cMap.get(key).setBalance(cMap.get(key).getBalance() + addMoney);
-				BreakdownDTO breakdownDTO = new BreakdownDTO();
-				breakdownDTO.setAccount(cMap.get(key).getAccount());
-				breakdownDTO.setDealMoney(addMoney);
-				breakdownDTO.setDivision("입금");
-				breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
-				bList.add(breakdownDTO);
-				return true;
-			}
-
+	/*
+	 * public boolean deposit(String account, long addMoney) { for (String key :
+	 * cMap.keySet()) { if (cMap.get(key).getAccount().equals(account)) {
+	 * cMap.get(key).setBalance(cMap.get(key).getBalance() + addMoney); BreakdownDTO
+	 * breakdownDTO = new BreakdownDTO();
+	 * breakdownDTO.setAccount(cMap.get(key).getAccount());
+	 * breakdownDTO.setDealMoney(addMoney); breakdownDTO.setDivision("입금");
+	 * breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
+	 * bList.add(breakdownDTO); return true; }
+	 * 
+	 * } return false; }
+	 */
+	public boolean select(String menu, String account) {
+		System.out.print(menu + "할 금액 입력>");
+		long money = sc.nextLong();
+		boolean ok = false;
+		if (menu == "출금") {
+			money = money * -1;
 		}
-		return false;
-	}
-
-	public boolean withdraw(String account, long withdrawMoney) {
-		for (String key : cMap.keySet()) {
-			if (cMap.get(key).getAccount().equals(account)) {
-				if (cMap.get(key).getBalance() >= withdrawMoney) {
-					cMap.get(key).setBalance(cMap.get(key).getBalance() - withdrawMoney);
-					BreakdownDTO breakdownDTO = new BreakdownDTO();
-					breakdownDTO.setAccount(cMap.get(key).getAccount());
-					breakdownDTO.setDealMoney(withdrawMoney);
-					breakdownDTO.setDivision("출금");
-					breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
-					bList.add(breakdownDTO);
+		if (ok) {
+			for (String key : cMap.keySet()) {
+				if (cMap.get(key).getAccount().equals(account)) {
+					cMap.get(key).setBalance(cMap.get(key).getBalance() + money);
+					repository.breakdown(menu, account, money, cMap.get(key).getBalance());
 					return true;
+				} else {
+					return false;
 				}
-				return false;
 			}
+			return false;
+		} else {
+			return false;
 		}
-		return false;
 	}
+
+	public boolean du(String menu, String account) {
+		if (repository.select(menu, account)) {
+			return true;
+		} else {
+			System.out.println("실패");
+			return false;
+		}
+	}
+
+	public void breakdown(String menu, String account, long money, long balance) {
+		BreakdownDTO breakdownDTO = new BreakdownDTO();
+		breakdownDTO.setAccount(account);
+		breakdownDTO.setDealMoney(money);
+		breakdownDTO.setDivision(menu);
+		breakdownDTO.setTotalMoney(balance);
+		bList.add(breakdownDTO);
+
+	}
+
+	/*
+	 * public boolean withdraw(String account, long withdrawMoney) { for (String key
+	 * : cMap.keySet()) { if (cMap.get(key).getAccount().equals(account)) { if
+	 * (cMap.get(key).getBalance() >= withdrawMoney) {
+	 * cMap.get(key).setBalance(cMap.get(key).getBalance() - withdrawMoney);
+	 * BreakdownDTO breakdownDTO = new BreakdownDTO();
+	 * breakdownDTO.setAccount(cMap.get(key).getAccount());
+	 * breakdownDTO.setDealMoney(withdrawMoney); breakdownDTO.setDivision("출금");
+	 * breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
+	 * bList.add(breakdownDTO); return true; } return false; } } return false; }
+	 */
+	public int du(int num) {
+		if (num == 1) {
+			return 1;
+		} else if (num == 2) {
+			return 2;
+		} else {
+			System.out.println("다시입력");
+			return 3;
+
+		}
+	}
+
+	/*
+	 * public void deposit() { String account = repository.getAccount(loginId,
+	 * loginPw); if (account == null) { System.out.println("로그인 오류"); } else {
+	 * System.out.print("입금할 금액 입력> "); long addMoney = sc.nextLong(); if
+	 * (repository.deposit(account, addMoney)) { System.out.println("입금 완료"); } else
+	 * { System.out.println("입금 오류"); } }
+	 */
 
 	public boolean transferAccount(String addAccount) {
 		for (String key : cMap.keySet()) {
@@ -142,5 +192,5 @@ public class ClientRepository {
 		}
 		return false;
 	}
-	
+
 }

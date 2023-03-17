@@ -13,7 +13,7 @@ public class ClientMain {
 		while (true) {
 			System.out.println("=====인터넷뱅킹=====");
 			if (loginOk) {
-				System.out.println("1.입출금조회 2.입출금 3. 4.계좌이체 5.비밀번호수정 6.회원탈퇴 7.로그아웃 0.종료");
+				System.out.println("1.입출금조회 2.입금 3.출금 4.계좌이체 5.비밀번호수정 6.회원탈퇴 7.로그아웃 0.종료");
 			} else {
 				System.out.println("1.회원가입 2.로그인 3.리스트 0.종료");
 			}
@@ -28,7 +28,7 @@ public class ClientMain {
 				}
 			} else if (menu == 2) {
 				if (loginOk) {
-					service.deposit();
+					service.du();
 				} else {
 					if(service.login()) {
 					loginOk = true;
@@ -36,12 +36,12 @@ public class ClientMain {
 				}
 			} else if (menu == 3) {
 				if (loginOk) {
-					service.withdraw();
+					service.du();
 				} else {
 					service.findAll();
 				}
 			} else if (menu == 4 && loginOk) {
-					service.transferCheck();
+				//	service.transferCheck();
 			} else if (menu == 5 && loginOk) {
 					service.update();
 			} else if (menu == 6 && loginOk) {
