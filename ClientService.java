@@ -165,6 +165,7 @@ public class ClientService {
 			String updatePassword = sc.next();
 			if(repository.update(account,updatePassword)) {
 				System.out.println("비밀번호 수정 완료");
+				loginPw = updatePassword;
 			}else {
 				System.out.println("수정 오류");
 			}

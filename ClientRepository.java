@@ -82,6 +82,7 @@ public class ClientRepository {
 				breakdownDTO.setDealMoney(addMoney);
 				breakdownDTO.setDivision("입금");
 				breakdownDTO.setTotalMoney(cMap.get(key).getBalance() + addMoney);
+//				cMap.put(cMap.get(key),cMap.get(key).getBalance());
 				bList.add(breakdownDTO);
 				return true;
 			}
@@ -99,7 +100,7 @@ public class ClientRepository {
 				breakdownDTO.setAccount(cMap.get(key).getAccount());
 				breakdownDTO.setDealMoney(withdrawMoney);
 				breakdownDTO.setDivision("출금");
-				breakdownDTO.setTotalMoney(cMap.get(key).getBalance() - withdrawMoney);
+				breakdownDTO.setTotalMoney(cMap.get(key).getBalance());
 				bList.add(breakdownDTO);
 				return true;
 				}
