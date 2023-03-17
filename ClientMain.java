@@ -34,14 +34,14 @@ public class ClientMain {
 				}
 			} else if (menu == 3) {
 				if (loginOk) {
-
+					service.withdraw();
 				} else {
 					service.findAll();
 				}
 			} else if (menu == 4 && loginOk) {
-
+					service.transferCheck();
 			} else if (menu == 5 && loginOk) {
-
+					service.update();
 			} else if (menu == 6 && loginOk) {
 				service.delete();
 				loginOk = false;

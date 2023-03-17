@@ -100,7 +100,74 @@ public class ClientService {
 	}
 
 	public void deposit() {
+		String account = repository.getAccount(loginId, loginPw);
+		if (account == null) {
+			System.out.println("로그인 오류");
+		} else {
+			System.out.print("입금할 금액 입력> ");
+			long addMoney = sc.nextLong();
+			if (repository.deposit(account, addMoney)) {
+				System.out.println("입금 완료");
+			} else {
+				System.out.println("입금 오류");
+			}
+		}
 
 	}
 
+	public void withdraw() {
+		String account = repository.getAccount(loginId, loginPw);
+		if (account == null) {
+			System.out.println("로그인 오류");
+		} else {
+			System.out.println("출금할 금액 입력");
+			long withdrawMoney = sc.nextLong();
+			if (repository.withdraw(account, withdrawMoney)) {
+				System.out.println("출금 성공");
+			} else {
+				System.out.println("잔액 부족");
+
+			}
+		}
+	}
+
+	public void transferCheck() {
+		String account = repository.getAccount(loginId, loginPw);
+		if (account == null) {
+			System.out.println("로그인 오류");
+			return;
+		}
+		System.out.print("계좌이체받을 계좌번호 입력> ");
+		String addAccount = sc.next();
+		if (repository.transferAccount(addAccount)) {
+			System.out.print("계좌이체할 금액 입력> ");
+			long transferMoney = sc.nextLong();
+			if (repository.withdraw(account, transferMoney)) {
+				if (repository.deposit(addAccount, transferMoney)) {
+					System.out.println("이체 성공");
+				}
+			} else {
+				System.out.println("이체할 잔액 부족");
+			}
+		} else {
+			System.out.println("계좌번호 오류");
+		}
+
+	}
+	
+	public void update() {
+		String account = repository.getAccount(loginId, loginPw);
+		if(account == null) {
+			System.out.println("로그인 오류");
+			return;
+		}else {
+			System.out.print("수정할 비밀번호> ");
+			String updatePassword = sc.next();
+			if(repository.update(account,updatePassword)) {
+				System.out.println("비밀번호 수정 완료");
+			}else {
+				System.out.println("수정 오류");
+			}
+		}
+	}
 }
